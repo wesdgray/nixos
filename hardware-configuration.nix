@@ -7,10 +7,19 @@
   imports = [ ];
   
   boot.initrd.availableKernelModules = [ "sd_mod" "sr_mod" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "dm-snapshot" "hv_vmbus" "hv_utils" "hv_netvsc" "hv_storvsc" ];
+  boot.kernelModules = [ "hv_vmbus" "hv_utils" ];
   boot.extraModulePackages = [ ];
-
+  boot.kernel.sysctl = {
+    "net.ipv6.conf.all.disable_ipv6" = 1;
+    "net.ipv6.conf.default.disable_ipv6" = 1;
+  };
+  systemd.services."hv-kvp-daemon" = {
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "lib/systemd/systemd-hv-kvp-daemon";
+    };
+  };
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/19c88078-e162-4479-b7f1-92ec676d4af7";
       fsType = "btrfs";
