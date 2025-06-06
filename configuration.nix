@@ -83,7 +83,7 @@
     description = "Wes";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+      discord
     ];
   };
 
@@ -96,18 +96,55 @@
   systemd.services."autovt@tty1".enable = false;
 
   # Install firefox.
-  programs.firefox.enable = true;
+  programs = {
+    firefox.enable = true;
+    steam = {
+      enable = true;    
+      # remotePlay.openFirewall = true;
+      # dedicatedServer.openFirewall = true;
+    };
+    _1password-gui.enable = true;
+    tmux.enable = true;
+    neovim.enable = true;
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
+  
+  services.xserver.videoDrivers = ["nvidia"]; 
+  hardware = {
+    graphics.enable = true;
+    nvidia = {
+      modesetting.enable = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      open = true;
+    };
+  };
+ 
+  services.synergy.server = {
+    enable = true;
+    screenName = "nixos";
+    address = "0.0.0.0";
+    autoStart = true;
+  }
+ 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim
     wget
     git
+    ghostty
+    nerd-fonts.jetbrains-mono
+    ripgrep
+    synergy
   ];
+
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false; 
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
