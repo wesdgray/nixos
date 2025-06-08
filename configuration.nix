@@ -122,13 +122,6 @@
     };
   };
  
-  services.synergy.server = {
-    enable = true;
-    screenName = "nixos";
-    address = "0.0.0.0";
-    autoStart = true;
-  }
- 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -138,9 +131,9 @@
     ghostty
     nerd-fonts.jetbrains-mono
     ripgrep
-    synergy
+    gcc
   ];
-
+  
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
@@ -158,6 +151,11 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  
+  programs.ssh.extraConfig = ''
+Host *
+	IdentityAgent ~/.1password/agent.sock
+'';
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
