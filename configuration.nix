@@ -73,7 +73,10 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
+  
+  services.tailscale = {
+    enable = true;
+  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   
@@ -100,6 +103,7 @@
 
   # Install firefox.
   programs = {
+    noisetorch.enable = true;
     firefox.enable = true;
     steam = {
       enable = true;    
@@ -135,6 +139,7 @@
     nerd-fonts.jetbrains-mono
     ripgrep
     gcc
+    devenv
   ];
   
   systemd.targets.sleep.enable = false;
@@ -167,6 +172,10 @@ Host *
   # networking.firewall.enable = false;
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.extraOptions = ''
+    extra-substituters = https://devenv.cachix.org
+    extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
+  '';   
   
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
