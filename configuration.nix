@@ -91,6 +91,9 @@
       discord
       nixd
     ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
+    ];
   };
 
   # Enable automatic login for the user.
@@ -113,6 +116,10 @@
     _1password-gui.enable = true;
     tmux.enable = true;
     neovim.enable = true;
+    mosh = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   # Allow unfree packages
@@ -140,6 +147,7 @@
     ripgrep
     gcc
     devenv
+    gnomeExtensions.system-monitor
   ];
   
   systemd.targets.sleep.enable = false;
@@ -158,7 +166,10 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+  };
   
   programs.ssh.extraConfig = ''
 Host *
@@ -166,7 +177,10 @@ Host *
 '';
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 24800 ];
+  networking.firewall.allowedTCPPorts = [ 
+    22
+    24800
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
