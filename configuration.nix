@@ -91,6 +91,10 @@
       discord
       nixd
       telegram-desktop
+      jujutsu
+      google-chrome
+      tree
+      gimp3
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
@@ -149,6 +153,7 @@
     gcc
     devenv
     gnomeExtensions.system-monitor
+    qemu
   ];
   
   systemd.targets.sleep.enable = false;
