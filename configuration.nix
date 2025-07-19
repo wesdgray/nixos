@@ -212,4 +212,6 @@ Host *
     };
     tools.nixos-version.enable = false;
   };
+  
+  documentation.nixos.enable = false;
 }
