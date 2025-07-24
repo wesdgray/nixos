@@ -89,6 +89,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       discord
+      lutris
       nixd
       telegram-desktop
       jujutsu
