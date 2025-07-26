@@ -3,7 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let stateVersion = "25.05"; in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -204,7 +204,7 @@ Host *
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = stateVersion; # Did you read the comment?
   
   system = {
     nixos = {
@@ -215,4 +215,22 @@ Host *
   };
   
   documentation.nixos.enable = false;
+
+  # Home Manager
+  home-manager.users.wes = homeManagerArgs: {
+    programs = {
+
+      bash = {
+	enable = true;
+	initExtra = ''set -o vi'';
+      };
+
+      direnv = {
+	enable = true;
+	nix-direnv.enable = true;
+      };
+    };
+
+    home.stateVersion = stateVersion;
+  };
 }
