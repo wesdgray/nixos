@@ -8,11 +8,13 @@
   };
 
   outputs = { nixpkgs, home-manager, ... }: {
+    value = nixpkgs.outPath;
     nixosConfigurations.nixos = let evalNixos = import (nixpkgs + "/nixos/lib/eval-config.nix"); in evalNixos { 
       modules = [
         ./configuration.nix
         home-manager.nixosModules.home-manager
       ];
+      specialArgs = { inherit nixpkgs; };
       system = null;
     };
   };

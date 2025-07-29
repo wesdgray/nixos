@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs, ... }:
 let stateVersion = "25.05"; in
 {
   imports =
@@ -46,8 +46,8 @@ let stateVersion = "25.05"; in
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -197,6 +197,7 @@ Host *
     extra-substituters = https://devenv.cachix.org
     extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
   '';   
+  nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
   
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -218,11 +219,32 @@ Host *
 
   # Home Manager
   home-manager.users.wes = homeManagerArgs: {
+    home.packages = with pkgs; [
+      mob
+    ];
+
     programs = {
 
       bash = {
 	enable = true;
 	initExtra = ''set -o vi'';
+      };
+      
+      git = {
+	enable = true;
+	userName = "Wes Gray";
+	userEmail = "wes.gray@gmail.com";
+	ignores = [
+	  ".direnv"
+	  ".envrc"
+	];
+	extraConfig = {
+	  url = {
+	    "ssh://git@github.com" = {
+	      insteadOf = "https://github.com/";
+	    };
+	  };
+	};
       };
 
       direnv = {
