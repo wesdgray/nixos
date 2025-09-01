@@ -86,8 +86,9 @@ let stateVersion = "25.05"; in
   users.users.wes = {
     isNormalUser = true;
     description = "Wes";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
+      sidequest
       discord
       lutris
       nixd
@@ -96,9 +97,11 @@ let stateVersion = "25.05"; in
       google-chrome
       tree
       gimp3
+      prusa-slicer
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGij7rpWcW4JyLt8cnv7XmGV8FxE69yNO371B4R5t0j wes@metaquest3"
     ];
   };
 
@@ -155,8 +158,11 @@ let stateVersion = "25.05"; in
     devenv
     gnomeExtensions.system-monitor
     qemu
+    wl-clipboard-rs
   ];
-  
+   
+  virtualisation.docker.enable = true;
+
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
@@ -224,7 +230,7 @@ Host *
     ];
 
     programs = {
-
+      
       bash = {
 	enable = true;
 	initExtra = ''set -o vi'';
@@ -245,13 +251,29 @@ Host *
 	    };
 	  };
 	};
+
+	difftastic = {
+	  enable = true;
+	  enableAsDifftool = true;
+	};
       };
 
       direnv = {
 	enable = true;
 	nix-direnv.enable = true;
       };
+
+      starship = {
+	enable = true;
+	settings.custom.mob = {
+	  command = "echo $MOB_TIMER_ROOM";
+	  format = "[ ($output)]($style) ";
+	  when = "[[ -v MOB_TIMER_ROOM ]]";
+	};
+      };
+
     };
+
 
     home.stateVersion = stateVersion;
   };
