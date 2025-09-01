@@ -231,6 +231,37 @@ Host *
 
     programs = {
       
+      ghostty = {
+	enable = true;
+	enableBashIntegration = true;
+	settings = {
+	  font-family = "JetBrainsMono NF";
+	  theme = "Dracula";
+	  mouse-hide-while-typing = "true";
+	  scrollback-limit = "1000000";
+	  window-save-state = "always";
+
+	  keybind = [
+	    "ctrl+a>n=new_window"
+	    "ctrl+a>t=new_tab"
+	    "ctrl+h=goto_split:left"
+	    "ctrl+j=goto_split:bottom"
+	    "ctrl+k=goto_split:top"
+	    "ctrl+l=goto_split:right"
+	    "ctrl+a>h=new_split:left"
+	    "ctrl+a>j=new_split:down"
+	    "ctrl+a>k=new_split:up"
+	    "ctrl+a>l=new_split:right"
+	    "alt+enter=toggle_fullscreen"
+	    "ctrl+enter=toggle_split_zoom"
+	    "ctrl+tab=next_tab"
+	    "ctrl+shift+tab=previous_tab"
+	    "super+r=reload_config"
+	  ];
+
+	};
+      };
+
       bash = {
 	enable = true;
 	initExtra = ''set -o vi'';
