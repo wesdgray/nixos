@@ -76,7 +76,10 @@ let stateVersion = "25.05"; in
   
   services.tailscale = {
     enable = true;
+    extraUpFlags = [ "--ssh=false" ];
+    extraSetFlags = [ "--ssh=false" ];
   };
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   
@@ -102,6 +105,7 @@ let stateVersion = "25.05"; in
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGij7rpWcW4JyLt8cnv7XmGV8FxE69yNO371B4R5t0j wes@metaquest3"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGfeSFlm5MWtmC/tbT8w5AwQFoEJYR+KWSUifZP4XvA wes@macbook"
     ];
   };
 
