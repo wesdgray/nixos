@@ -162,7 +162,6 @@ let stateVersion = "25.05"; in
     devenv
     gnomeExtensions.system-monitor
     qemu
-    wl-clipboard-rs
   ];
    
   virtualisation.docker.enable = true;
