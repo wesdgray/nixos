@@ -13,7 +13,7 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }: {
+  outputs = { nixpkgs, home-manager, nixvim, ... }: {
     nixosConfigurations.nixos = let 
         evalNixos = import (nixpkgs + "/nixos/lib/eval-config.nix");
     in evalNixos { 
@@ -21,7 +21,7 @@
         ./configuration.nix
         home-manager.nixosModules.home-manager
       ];
-      specialArgs = { inherit nixpkgs; };
+      specialArgs = { inherit nixpkgs nixvim;};
       system = null;
     };
   };
