@@ -84,7 +84,6 @@ let stateVersion = "25.05"; in
   # services.xserver.libinput.enable = true;
   
   services.flatpak.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.wes = {
     isNormalUser = true;
@@ -106,6 +105,7 @@ let stateVersion = "25.05"; in
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGij7rpWcW4JyLt8cnv7XmGV8FxE69yNO371B4R5t0j wes@metaquest3"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGfeSFlm5MWtmC/tbT8w5AwQFoEJYR+KWSUifZP4XvA wes@macbook"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhFzgSUd/M+WQfX0zF9Y56In7JolY4tJQ+4mQG7I4fp wes@boox"
     ];
   };
 
@@ -128,7 +128,6 @@ let stateVersion = "25.05"; in
     };
     _1password-gui.enable = true;
     tmux.enable = true;
-    neovim.enable = true;
     mosh = {
       enable = true;
       openFirewall = true;
@@ -318,11 +317,16 @@ Host *
 	  lspconfig.enable = true;
 	  sleuth.enable = true;
 	  web-devicons.enable = true;
-	  luasnip.enable = true;
-	  cmp-nvim-lsp.enable = true;
-	  cmp-buffer.enable = true;
-	  cmp.enable = true;
 	  rustaceanvim.enable = true;
+	  cmp = {
+	    enable = true;
+	    settings.sources = [
+	      { name = "nvim_lsp"; }
+	      { name = "luasnip"; }
+	      { name = "path"; }
+	      { name = "buffer"; }
+	    ];
+	  };
 
 	};
       }; # nixvim
@@ -360,7 +364,10 @@ Host *
 
       bash = {
 	enable = true;
-	initExtra = ''set -o vi'';
+	initExtra = ''
+	  set -o vi
+	  export EDITOR=nvim
+	'';
       };
       
       git = {
