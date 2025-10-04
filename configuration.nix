@@ -295,10 +295,7 @@ Host *
 	  {
 	    mode = "n";
 	    key = "<leader>l";
-	    action = ''
-	      lua local inlay_hint_status = not (vim.lsp.inlay_hint.enable)
-	      vim.lsp.inlay_hint.enable(inlay_hint_status)
-	    '';
+	    action = "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>";
 	  }
 	];
 
