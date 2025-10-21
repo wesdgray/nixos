@@ -90,6 +90,7 @@ let stateVersion = "25.05"; in
     description = "Wes";
     extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
+      deepfilternet
       sidequest
       discord
       lutris
@@ -119,7 +120,6 @@ let stateVersion = "25.05"; in
 
   # Install firefox.
   programs = {
-    noisetorch.enable = true;
     firefox.enable = true;
     steam = {
       enable = true;    
