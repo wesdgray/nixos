@@ -297,6 +297,12 @@ Host *
 	    key = "<leader>l";
 	    action = "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>";
 	  }
+	  # Context
+	  {
+	    mode = "n";
+	    key = "<leader>c";
+	    action = "<CMD>TSContext toggle<CR>";
+	  }
 	];
 
 	lsp = {
@@ -309,6 +315,7 @@ Host *
 	  oil.enable = true;
 	  treesitter.enable = true;
 	  treesitter-textobjects.enable = true;
+	  treesitter-context.enable = true;
 	  telescope.enable = true;
 	  which-key.enable = true;
 	  lspconfig.enable = true;
