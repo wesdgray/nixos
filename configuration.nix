@@ -317,6 +317,7 @@ Host *
 	lsp = {
 	  servers = {
 	    nixd.enable = true;
+	    gopls.enable = true;
 	  };
 	};
 
@@ -383,26 +384,26 @@ Host *
 	'';
       };
       
+      difftastic = {
+	enable = true;
+	git.diffToolMode = true;
+      };
+
       git = {
 	enable = true;
-	userName = "Wes Gray";
-	userEmail = "wes.gray@gmail.com";
-	ignores = [
-	  ".direnv"
-	  ".envrc"
-	];
-	extraConfig = {
+	settings = {
+	  user.name = "Wes Gray";
+	  user.email = "wes.gray@gmail.com";
 	  url = {
 	    "ssh://git@github.com" = {
 	      insteadOf = "https://github.com/";
 	    };
 	  };
 	};
-
-	difftastic = {
-	  enable = true;
-	  enableAsDifftool = true;
-	};
+	ignores = [
+	  ".direnv"
+	  ".envrc"
+	];
       };
 
       direnv = {
