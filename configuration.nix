@@ -74,6 +74,7 @@ let stateVersion = "25.05"; in
     #media-session.enable = true;
   };
   
+
   services.tailscale = {
     enable = true;
     extraUpFlags = [ "--ssh=false" ];
@@ -90,6 +91,7 @@ let stateVersion = "25.05"; in
     description = "Wes";
     extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [
+      wine
       deepfilternet
       sidequest
       discord
@@ -117,7 +119,7 @@ let stateVersion = "25.05"; in
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
-
+  
   # Install firefox.
   programs = {
     firefox.enable = true;
@@ -132,6 +134,8 @@ let stateVersion = "25.05"; in
       enable = true;
       openFirewall = true;
     };
+    # for easyeffects
+    dconf.enable = true;
   };
 
   # Allow unfree packages
@@ -234,9 +238,14 @@ Host *
     home.packages = with pkgs; [
       mob
     ];
+    
+    services = {
+      easyeffects.enable = true;
+    };
 
     programs = {
       
+
       nixvim = {
 	enable = true;
 
