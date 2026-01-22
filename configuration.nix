@@ -42,6 +42,13 @@ let stateVersion = "25.05"; in
     LC_TIME = "en_US.UTF-8";
   };
 
+  # Enable sched_ext
+  services.scx = {
+    enable = true;
+    scheduler = "scx_lavd"; # default is "scx_rustland"
+  };
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -165,6 +172,7 @@ let stateVersion = "25.05"; in
     devenv
     gnomeExtensions.system-monitor
     qemu
+    nut
   ];
    
   virtualisation.docker.enable = true;
@@ -245,6 +253,7 @@ Host *
 
     programs = {
       
+      vesktop.enable = true; 
 
       nixvim = {
 	enable = true;
@@ -334,12 +343,19 @@ Host *
 	  rustaceanvim.enable = true;
 	  cmp = {
 	    enable = true;
-	    settings.sources = [
-	      { name = "nvim_lsp"; }
-	      { name = "luasnip"; }
-	      { name = "path"; }
-	      { name = "buffer"; }
-	    ];
+	    settings = {
+	      sources = [
+		{ name = "nvim_lsp"; }
+		{ name = "luasnip"; }
+		{ name = "path"; }
+		{ name = "buffer"; }
+	      ];
+	      mapping = {
+		"<C-Space>" = "cmp.mapping.complete()";
+		"<C-n>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+		"<C-p>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+	      };
+	    };
 	  };
 
 	};
