@@ -1,0 +1,11 @@
+[1m<<<[0m /run/current-system
+[1m>>>[0m /nix/store/2b096m7rga995i64zvbhw7yy72glgwx2-nixos-system-desktop3950x-no_git_metadata
+
+[1mADDED[0m
+[[1;32mA[0m.] nixos-system-desktop3950x-no_git_metadata [32m<none>[0m
+
+[1mREMOVED[0m
+[[1;31mR[0m.] nixos-system-nixos-no_git_metadata        [31m<none>[0m
+
+[1mSIZE[0m: [31m22.0 GiB[0m -> [32m22.0 GiB[0m
+[1mDIFF[0m: [32m208 bytes[0m

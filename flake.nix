@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "Dendretic Nix config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -11,18 +11,9 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = { nixpkgs, home-manager, nixvim, ... }: {
-    nixosConfigurations.nixos = let 
-        evalNixos = import (nixpkgs + "/nixos/lib/eval-config.nix");
-    in evalNixos { 
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-      ];
-      specialArgs = { inherit nixpkgs nixvim;};
-      system = null;
-    };
-  };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules); 
 }
