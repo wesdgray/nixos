@@ -12,6 +12,11 @@
       self.nixosModules.desktop3950x-config
       self.nixosModules.i18n
       self.nixosModules.audio
+      self.nixosModules.tailscale
+      self.nixosModules.fonts
+      self.nixosModules.docker
+      self.nixosModules.no-sleep
+      self.nixosModules.nix-settings
       self.nixosModules.desktop3950x-hardware
     ];
   };

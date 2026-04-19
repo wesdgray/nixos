@@ -47,12 +47,6 @@
       services.printing.enable = true;
 
 
-      services.tailscale = {
-	enable = true;
-	extraUpFlags = [ "--ssh=false" ];
-	extraSetFlags = [ "--ssh=false" ];
-      };
-
       # Enable touchpad support (enabled default in most desktopManager).
       # services.xserver.libinput.enable = true;
       
@@ -142,25 +136,6 @@
 	nut
       ];
 
-      fonts.packages = with pkgs; [
-	noto-fonts
-	noto-fonts-cjk-sans
-	noto-fonts-cjk-serif
-      ];
-
-      fonts.fontconfig.defaultFonts = {
-	sansSerif = [ "Noto Sans CJK SC" "Noto Sans CJK TC" ];
-	serif     = [ "Noto Serif CJK SC" "Noto Serif CJK TC" ];
-	monospace = [ "Noto Sans Mono CJK SC" ];
-      }; 
-
-      virtualisation.docker.enable = true;
-
-      systemd.targets.sleep.enable = false;
-      systemd.targets.suspend.enable = false;
-      systemd.targets.hibernate.enable = false;
-      systemd.targets.hybrid-sleep.enable = false; 
-
       # Some programs need SUID wrappers, can be configured further or are
       # started in user sessions.
       # programs.mtr.enable = true;
@@ -190,13 +165,6 @@
       # networking.firewall.allowedUDPPorts = [ ... ];
       # Or disable the firewall altogether.
       # networking.firewall.enable = false;
-      
-      nix.settings.experimental-features = [ "nix-command" "flakes" "pipe-operators"];
-      nix.extraOptions = ''
-	extra-substituters = https://devenv.cachix.org
-	extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
-      '';   
-      nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
       
       # This value determines the NixOS release from which the default
       # settings for stateful data, like file locations and database versions
