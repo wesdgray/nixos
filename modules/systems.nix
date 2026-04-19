@@ -10,6 +10,7 @@
     modules = [
       inputs.home-manager.nixosModules.home-manager
       self.nixosModules.desktop3950x-config
+      self.nixosModules.i18n
       self.nixosModules.desktop3950x-hardware
     ];
   };
