@@ -94,6 +94,7 @@
 	description = "Wes";
 	extraGroups = [ "networkmanager" "wheel" "docker"];
 	packages = with pkgs; [
+	  nh
 	  r2modman
 	  wine
 	  deepfilternet
