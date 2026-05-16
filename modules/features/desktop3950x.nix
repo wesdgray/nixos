@@ -2,9 +2,25 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  flake.nixosModules.desktop3950x-config = 
-    { config, pkgs, nixpkgs, nixvim, ...}:
-    { 
+  flake.nixosModules.desktop3950x-config =
+    {
+      config,
+      lib,
+      pkgs,
+      nixpkgs,
+      nixvim,
+      ...
+    }:
+    let
+      min_kernel_version = "6.19.12";
+    in
+    {
+      assertions = [
+        {
+          assertion = lib.versionAtLeast config.boot.kernelPackages.kernel.version min_kernel_version;
+          message = "Kernel must be at least ${min_kernel_version} (current: ${config.boot.kernelPackages.kernel.version})";
+        }
+      ];
 
       # Bootloader.
       boot.loader.systemd-boot.enable = true;
@@ -25,8 +41,8 @@
 
       # Enable sched_ext
       services.scx = {
-	enable = true;
-	scheduler = "scx_lavd"; # default is "scx_rustland"
+        enable = true;
+        scheduler = "scx_lavd"; # default is "scx_rustland"
       };
       boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -39,45 +55,47 @@
 
       # Configure keymap in X11
       services.xserver.xkb = {
-	layout = "us";
-	variant = "";
+        layout = "us";
+        variant = "";
       };
 
       # Enable CUPS to print documents.
       services.printing.enable = true;
 
-
       # Enable touchpad support (enabled default in most desktopManager).
       # services.xserver.libinput.enable = true;
-      
+
       services.flatpak.enable = true;
       # Define a user account. Don't forget to set a password with ‘passwd’.
       users.users.wes = {
-	isNormalUser = true;
-	description = "Wes";
-	extraGroups = [ "networkmanager" "wheel" "docker"];
-	packages = with pkgs; [
-	  nh
-	  r2modman
-	  wine
-	  deepfilternet
-	  sidequest
-	  discord
-	  lutris
-	  nixd
-	  telegram-desktop
-	  jujutsu
-	  google-chrome
-	  tree
-	  gimp3
-	  prusa-slicer
-	];
-	openssh.authorizedKeys.keys = [
-	  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
-	  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGij7rpWcW4JyLt8cnv7XmGV8FxE69yNO371B4R5t0j wes@metaquest3"
-	  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGfeSFlm5MWtmC/tbT8w5AwQFoEJYR+KWSUifZP4XvA wes@macbook"
-	  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhFzgSUd/M+WQfX0zF9Y56In7JolY4tJQ+4mQG7I4fp wes@boox"
-	];
+        isNormalUser = true;
+        description = "Wes";
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+          "docker"
+        ];
+        packages = with pkgs; [
+          nh
+          r2modman
+          wine
+          deepfilternet
+          sidequest
+          discord
+          nixd
+          telegram-desktop
+          jujutsu
+          google-chrome
+          tree
+          gimp3
+          prusa-slicer
+        ];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU9iEeJ7tL/zm80LlNRT7BEql3uJsWNu1SOq9G0JVdX wes@nixos"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGij7rpWcW4JyLt8cnv7XmGV8FxE69yNO371B4R5t0j wes@metaquest3"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIGfeSFlm5MWtmC/tbT8w5AwQFoEJYR+KWSUifZP4XvA wes@macbook"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINhFzgSUd/M+WQfX0zF9Y56In7JolY4tJQ+4mQG7I4fp wes@boox"
+        ];
       };
 
       # Enable automatic login for the user.
@@ -87,53 +105,53 @@
       # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
       systemd.services."getty@tty1".enable = false;
       systemd.services."autovt@tty1".enable = false;
-      
+
       # Install firefox.
       programs = {
-	firefox.enable = true;
-	steam = {
-	  enable = true;    
-	  # remotePlay.openFirewall = true;
-	  # dedicatedServer.openFirewall = true;
-	};
-	_1password-gui.enable = true;
-	tmux.enable = true;
-	mosh = {
-	  enable = true;
-	  openFirewall = true;
-	};
-	# for easyeffects
-	dconf.enable = true;
+        firefox.enable = true;
+        steam = {
+          enable = true;
+          # remotePlay.openFirewall = true;
+          # dedicatedServer.openFirewall = true;
+        };
+        _1password-gui.enable = true;
+        tmux.enable = true;
+        mosh = {
+          enable = true;
+          openFirewall = true;
+        };
+        # for easyeffects
+        dconf.enable = true;
       };
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
-      
-      services.xserver.videoDrivers = ["nvidia"]; 
+
+      services.xserver.videoDrivers = [ "nvidia" ];
       hardware = {
-	graphics.enable = true;
-	nvidia = {
-	  modesetting.enable = true;
-	  nvidiaSettings = true;
-	  package = config.boot.kernelPackages.nvidiaPackages.stable;
-	  open = true;
-	};
+        graphics.enable = true;
+        nvidia = {
+          modesetting.enable = true;
+          nvidiaSettings = true;
+          package = config.boot.kernelPackages.nvidiaPackages.stable;
+          open = true;
+        };
       };
-     
+
       # List packages installed in system profile. To search, run:
       # $ nix search wget
       environment.systemPackages = with pkgs; [
-	vim
-	wget
-	git
-	ghostty
-	nerd-fonts.jetbrains-mono
-	ripgrep
-	gcc
-	devenv
-	gnomeExtensions.system-monitor
-	qemu
-	nut
+        vim
+        wget
+        git
+        ghostty
+        nerd-fonts.jetbrains-mono
+        ripgrep
+        gcc
+        devenv
+        gnomeExtensions.system-monitor
+        qemu
+        nut
       ];
 
       # Some programs need SUID wrappers, can be configured further or are
@@ -148,24 +166,24 @@
 
       # Enable the OpenSSH daemon.
       services.openssh = {
-	enable = true;
-	settings.PasswordAuthentication = false;
+        enable = true;
+        settings.PasswordAuthentication = false;
       };
-      
+
       programs.ssh.extraConfig = ''
-    Host *
-	    IdentityAgent ~/.1password/agent.sock
-    '';
+            Host *
+        	    IdentityAgent ~/.1password/agent.sock
+      '';
 
       # Open ports in the firewall.
-      networking.firewall.allowedTCPPorts = [ 
-	22
-	24800
+      networking.firewall.allowedTCPPorts = [
+        22
+        24800
       ];
       # networking.firewall.allowedUDPPorts = [ ... ];
       # Or disable the firewall altogether.
       # networking.firewall.enable = false;
-      
+
       # This value determines the NixOS release from which the default
       # settings for stateful data, like file locations and database versions
       # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -173,221 +191,353 @@
       # Before changing this value read the documentation for this option
       # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
       system.stateVersion = "25.05"; # Did you read the comment?
-      
+
       system = {
-	nixos = {
-	  label = "no_git_metadata";
-	  version = "no_git_metadata";
-	};
-	tools.nixos-version.enable = false;
+        nixos = {
+          label = "no_git_metadata";
+          version = "no_git_metadata";
+        };
+        tools.nixos-version.enable = false;
       };
-      
+
       documentation.nixos.enable = false;
 
       # Home Manager
-      home-manager.sharedModules = [ 
-	nixvim.homeModules.nixvim
+      home-manager.sharedModules = [
+        nixvim.homeModules.nixvim
       ];
 
       home-manager.users.wes = homeManagerArgs: {
-	home.packages = with pkgs; [
-	  mob
-	];
-	
-	services = {
-	  easyeffects.enable = true;
-	};
+        home.packages = with pkgs; [
+          mob
+        ];
 
-	programs = {
-	  
-	  obs-studio.enable	= true;
-	  vesktop.enable = true; 
+        services = {
+          easyeffects.enable = true;
+        };
 
-	  nixvim = {
-	    enable = true;
+        programs = {
 
-	    globals = {
-	      mapleader = " ";
-	      maplocalleader = "\\";
-	    };
+          obs-studio.enable = true;
+          vesktop.enable = true;
 
-	    opts = {
-	      guifont = "JetBrainsMono NF:h12";
-	      clipboard = "unnamedplus";
-	      shiftwidth = 4;
-	      tabstop = 4;
-	      expandtab = true;
-	      termguicolors = true;
-	      number = true;
-	    };
+          nixvim = {
+            enable = true;
 
-	    keymaps = [
-	      # Telescope
-	      { mode = "n"; key = "<leader>ff"; action = "<cmd>Telescope find_files<cr>"; }
-	      { mode = "n"; key = "<leader>gf"; action = "<cmd>Telescope git_files<cr>"; }
-	      { mode = "n"; key = "sf"; action = "<cmd>Telescope find_files<cr>"; options.desc = "[S]earch [F]iles"; }
-	      { mode = "n"; key = "sk"; action = "<cmd>Telescope keymaps<cr>"; options.desc = "[S]earch [K]eymaps"; }
-	      { mode = "n"; key = "sb"; action = "<cmd>Telescope buffers<cr>"; options.desc = "[S]earch [B]uffers"; }
-	      { mode = "n"; key = "sr"; action = "<cmd>Telescope resume<cr>"; options.desc = "[S]earch [R]esume"; }
-	      { mode = "n"; key = "sh"; action = "<cmd>Telescope help_tags<cr>"; options.desc = "[S]earch [H]elp"; }
-	      { mode = "n"; key = "sz"; action = "<cmd>Telescope live_grep<cr>"; options.desc = "[S]earch Ripgrep"; }
-	      { mode = "n"; key = "s."; action = "<cmd>Telescope oldfiles<cr>"; options.desc = "[S]earch Recent Files"; }
-	      { mode = "n"; key = "sc"; action = "<cmd>Telescope colorscheme<cr>"; options.desc = "[S]earch [C]olorschemes"; }
+            globals = {
+              mapleader = " ";
+              maplocalleader = "\\";
+            };
 
-	      # LSP
-	      { mode = "n"; key = "gd"; action = "<cmd>Telescope lsp_definitions<cr>"; options.desc = "[G]oto [D]efinitions"; }
-	      { mode = "n"; key = "gr"; action = "<cmd>Telescope lsp_references<cr>"; options.desc = "[G]oto [R]eferences"; }
-	      { mode = "n"; key = "gi"; action = "<cmd>Telescope lsp_implementations<cr>"; options.desc = "[G]oto [I]mplementations"; }
-	      { mode = "n"; key = "<leader>D"; action = "<cmd>Telescope lsp_type_definitions<cr>"; options.desc = "Type [D]efinition"; }
-	      { mode = "n"; key = "<leader>ds"; action = "<cmd>Telescope lsp_document_symbols<cr>"; options.desc = "[D]ocument [S]ymbols"; }
-	      { mode = "n"; key = "<leader>ws"; action = "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>"; options.desc = "[W]orkspace [S]ymbols"; }
-	      { mode = "n"; key = "<leader>rn"; action = "<cmd>lua vim.lsp.buf.rename()<cr>"; options.desc = "LSP [R]e[n]ame"; }
-	      { mode = "n"; key = "<leader>ca"; action = "<cmd>lua vim.lsp.buf.code_action()<cr>"; options.desc = "LSP [C]ode [A]ction"; }
-	      { mode = "n"; key = "K"; action = "<cmd>lua vim.lsp.buf.hover()<cr>"; options.desc = "LSP Hover Documentation"; }
-	      { mode = "n"; key = "gD"; action = "<cmd>lua vim.lsp.buf.declaration()<cr>"; options.desc = "LSP [G]oto [D]eclaration"; }
-	      { mode = "n"; key = "]d"; action = "<cmd>lua vim.diagnostic.goto_next()<cr>"; options.desc = "Next LSP diagnostic"; }
-	      { mode = "n"; key = "[d"; action = "<cmd>lua vim.diagnostic.goto_prev()<cr>"; options.desc = "Previous LSP diagnostic"; }
+            opts = {
+              guifont = "JetBrainsMono NF:h12";
+              clipboard = "unnamedplus";
+              shiftwidth = 4;
+              tabstop = 4;
+              expandtab = true;
+              termguicolors = true;
+              number = true;
+            };
 
-	      # Harpoon
-	      { mode = "n"; key = "<leader>ha"; action = "<cmd>lua require('harpoon.mark').add_file()<cr>"; options.desc = "[H]arpoon [A]dd"; }
-	      { mode = "n"; key = "<leader>hq"; action = "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>"; options.desc = "[H]arpoon [Q]uickmenu"; }
-	      { mode = "n"; key = "<leader>hj"; action = "<cmd>lua require('harpoon.ui').nav_next()<cr>"; options.desc = "[H]arpoon Next"; }
-	      { mode = "n"; key = "<leader>hk"; action = "<cmd>lua require('harpoon.ui').nav_prev()<cr>"; options.desc = "[H]arpoon Prev"; }
+            keymaps = [
+              # Telescope
+              {
+                mode = "n";
+                key = "<leader>ff";
+                action = "<cmd>Telescope find_files<cr>";
+              }
+              {
+                mode = "n";
+                key = "<leader>gf";
+                action = "<cmd>Telescope git_files<cr>";
+              }
+              {
+                mode = "n";
+                key = "sf";
+                action = "<cmd>Telescope find_files<cr>";
+                options.desc = "[S]earch [F]iles";
+              }
+              {
+                mode = "n";
+                key = "sk";
+                action = "<cmd>Telescope keymaps<cr>";
+                options.desc = "[S]earch [K]eymaps";
+              }
+              {
+                mode = "n";
+                key = "sb";
+                action = "<cmd>Telescope buffers<cr>";
+                options.desc = "[S]earch [B]uffers";
+              }
+              {
+                mode = "n";
+                key = "sr";
+                action = "<cmd>Telescope resume<cr>";
+                options.desc = "[S]earch [R]esume";
+              }
+              {
+                mode = "n";
+                key = "sh";
+                action = "<cmd>Telescope help_tags<cr>";
+                options.desc = "[S]earch [H]elp";
+              }
+              {
+                mode = "n";
+                key = "sz";
+                action = "<cmd>Telescope live_grep<cr>";
+                options.desc = "[S]earch Ripgrep";
+              }
+              {
+                mode = "n";
+                key = "s.";
+                action = "<cmd>Telescope oldfiles<cr>";
+                options.desc = "[S]earch Recent Files";
+              }
+              {
+                mode = "n";
+                key = "sc";
+                action = "<cmd>Telescope colorscheme<cr>";
+                options.desc = "[S]earch [C]olorschemes";
+              }
 
-	      # Oil
-	      { mode = "n"; key = "-"; action = "<cmd>Oil --float<cr>"; options.desc = "Oil file explorer"; }
+              # LSP
+              {
+                mode = "n";
+                key = "gd";
+                action = "<cmd>Telescope lsp_definitions<cr>";
+                options.desc = "[G]oto [D]efinitions";
+              }
+              {
+                mode = "n";
+                key = "gr";
+                action = "<cmd>Telescope lsp_references<cr>";
+                options.desc = "[G]oto [R]eferences";
+              }
+              {
+                mode = "n";
+                key = "gi";
+                action = "<cmd>Telescope lsp_implementations<cr>";
+                options.desc = "[G]oto [I]mplementations";
+              }
+              {
+                mode = "n";
+                key = "<leader>D";
+                action = "<cmd>Telescope lsp_type_definitions<cr>";
+                options.desc = "Type [D]efinition";
+              }
+              {
+                mode = "n";
+                key = "<leader>ds";
+                action = "<cmd>Telescope lsp_document_symbols<cr>";
+                options.desc = "[D]ocument [S]ymbols";
+              }
+              {
+                mode = "n";
+                key = "<leader>ws";
+                action = "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>";
+                options.desc = "[W]orkspace [S]ymbols";
+              }
+              {
+                mode = "n";
+                key = "<leader>rn";
+                action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+                options.desc = "LSP [R]e[n]ame";
+              }
+              {
+                mode = "n";
+                key = "<leader>ca";
+                action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+                options.desc = "LSP [C]ode [A]ction";
+              }
+              {
+                mode = "n";
+                key = "K";
+                action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+                options.desc = "LSP Hover Documentation";
+              }
+              {
+                mode = "n";
+                key = "gD";
+                action = "<cmd>lua vim.lsp.buf.declaration()<cr>";
+                options.desc = "LSP [G]oto [D]eclaration";
+              }
+              {
+                mode = "n";
+                key = "]d";
+                action = "<cmd>lua vim.diagnostic.goto_next()<cr>";
+                options.desc = "Next LSP diagnostic";
+              }
+              {
+                mode = "n";
+                key = "[d";
+                action = "<cmd>lua vim.diagnostic.goto_prev()<cr>";
+                options.desc = "Previous LSP diagnostic";
+              }
 
-	      # inlay hints
-	      {
-		mode = "n";
-		key = "<leader>l";
-		action = "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>";
-	      }
-	      # Context
-	      {
-		mode = "n";
-		key = "<leader>c";
-		action = "<CMD>TSContext toggle<CR>";
-	      }
-	    ];
+              # Harpoon
+              {
+                mode = "n";
+                key = "<leader>ha";
+                action = "<cmd>lua require('harpoon.mark').add_file()<cr>";
+                options.desc = "[H]arpoon [A]dd";
+              }
+              {
+                mode = "n";
+                key = "<leader>hq";
+                action = "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>";
+                options.desc = "[H]arpoon [Q]uickmenu";
+              }
+              {
+                mode = "n";
+                key = "<leader>hj";
+                action = "<cmd>lua require('harpoon.ui').nav_next()<cr>";
+                options.desc = "[H]arpoon Next";
+              }
+              {
+                mode = "n";
+                key = "<leader>hk";
+                action = "<cmd>lua require('harpoon.ui').nav_prev()<cr>";
+                options.desc = "[H]arpoon Prev";
+              }
 
-	    lsp = {
-	      servers = {
-		nixd.enable = true;
-		gopls.enable = true;
-	      };
-	    };
+              # Oil
+              {
+                mode = "n";
+                key = "-";
+                action = "<cmd>Oil --float<cr>";
+                options.desc = "Oil file explorer";
+              }
 
-	    plugins = {
-	      oil.enable = true;
-	      treesitter.enable = true;
-	      treesitter-textobjects.enable = true;
-	      treesitter-context.enable = true;
-	      telescope.enable = true;
-	      which-key.enable = true;
-	      lspconfig.enable = true;
-	      sleuth.enable = true;
-	      web-devicons.enable = true;
-	      rustaceanvim.enable = true;
-	      cmp = {
-		enable = true;
-		settings = {
-		  sources = [
-		    { name = "nvim_lsp"; }
-		    { name = "luasnip"; }
-		    { name = "path"; }
-		    { name = "buffer"; }
-		  ];
-		  mapping = {
-		    "<C-Space>" = "cmp.mapping.complete()";
-		    "<C-n>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
-		    "<C-p>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
-		  };
-		};
-	      };
+              # inlay hints
+              {
+                mode = "n";
+                key = "<leader>l";
+                action = "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>";
+              }
+              # Context
+              {
+                mode = "n";
+                key = "<leader>c";
+                action = "<CMD>TSContext toggle<CR>";
+              }
+            ];
 
-	    };
-	  }; # nixvim
+            lsp = {
+              servers = {
+                nixd.enable = true;
+                gopls.enable = true;
+              };
+            };
 
-	  ghostty = {
-	    enable = true;
-	    enableBashIntegration = true;
-	    settings = {
-	      font-family = "JetBrainsMono NF";
-	      theme = "Dracula";
-	      mouse-hide-while-typing = "true";
-	      scrollback-limit = "1000000";
-	      window-save-state = "always";
+            plugins = {
+              oil.enable = true;
+              treesitter.enable = true;
+              treesitter-textobjects.enable = true;
+              treesitter-context.enable = true;
+              telescope.enable = true;
+              which-key.enable = true;
+              lspconfig.enable = true;
+              sleuth.enable = true;
+              web-devicons.enable = true;
+              rustaceanvim.enable = true;
+              cmp = {
+                enable = true;
+                settings = {
+                  sources = [
+                    { name = "nvim_lsp"; }
+                    { name = "luasnip"; }
+                    { name = "path"; }
+                    { name = "buffer"; }
+                  ];
+                  mapping = {
+                    "<C-Space>" = "cmp.mapping.complete()";
+                    "<C-n>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+                    "<C-p>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+                  };
+                };
+              };
 
-	      keybind = [
-		"ctrl+a>n=new_window"
-		"ctrl+a>t=new_tab"
-		"ctrl+h=goto_split:left"
-		"ctrl+j=goto_split:bottom"
-		"ctrl+k=goto_split:top"
-		"ctrl+l=goto_split:right"
-		"ctrl+a>h=new_split:left"
-		"ctrl+a>j=new_split:down"
-		"ctrl+a>k=new_split:up"
-		"ctrl+a>l=new_split:right"
-		"alt+enter=toggle_fullscreen"
-		"ctrl+enter=toggle_split_zoom"
-		"ctrl+tab=next_tab"
-		"ctrl+shift+tab=previous_tab"
-		"super+r=reload_config"
-	      ];
+            };
+          }; # nixvim
 
-	    };
-	  };
+          ghostty = {
+            enable = true;
+            enableBashIntegration = true;
+            settings = {
+              font-family = "JetBrainsMono NF";
+              theme = "Dracula";
+              mouse-hide-while-typing = "true";
+              scrollback-limit = "1000000";
+              window-save-state = "always";
 
-	  bash = {
-	    enable = true;
-	    initExtra = ''
-	      set -o vi
-	      export EDITOR=nvim
-	    '';
-	  };
-	  
-	  difftastic = {
-	    enable = true;
-	    git.diffToolMode = true;
-	  };
+              keybind = [
+                "ctrl+a>n=new_window"
+                "ctrl+a>t=new_tab"
+                "ctrl+h=goto_split:left"
+                "ctrl+j=goto_split:bottom"
+                "ctrl+k=goto_split:top"
+                "ctrl+l=goto_split:right"
+                "ctrl+a>h=new_split:left"
+                "ctrl+a>j=new_split:down"
+                "ctrl+a>k=new_split:up"
+                "ctrl+a>l=new_split:right"
+                "alt+enter=toggle_fullscreen"
+                "ctrl+enter=toggle_split_zoom"
+                "ctrl+tab=next_tab"
+                "ctrl+shift+tab=previous_tab"
+                "super+r=reload_config"
+              ];
 
-	  git = {
-	    enable = true;
-	    settings = {
-	      user.name = "Wes Gray";
-	      user.email = "wes.gray@gmail.com";
-	      url = {
-		"ssh://git@github.com" = {
-		  insteadOf = "https://github.com/";
-		};
-	      };
-	    };
-	    ignores = [
-	      ".direnv"
-	      ".envrc"
-	    ];
-	  };
+            };
+          };
 
-	  direnv = {
-	    enable = true;
-	    nix-direnv.enable = true;
-	  };
+          bash = {
+            enable = true;
+            initExtra = ''
+              	      set -o vi
+              	      export EDITOR=nvim
+              	    '';
+          };
 
-	  starship = {
-	    enable = true;
-	    settings.custom.mob = {
-	      command = "echo $MOB_TIMER_ROOM";
-	      format = "[ ($output)]($style) ";
-	      when = "[[ -v MOB_TIMER_ROOM ]]";
-	    };
-	  };
+          difftastic = {
+            enable = true;
+            git.diffToolMode = true;
+          };
 
-	};
+          git = {
+            enable = true;
+            settings = {
+              user.name = "Wes Gray";
+              user.email = "wes.gray@gmail.com";
+              url = {
+                "ssh://git@github.com" = {
+                  insteadOf = "https://github.com/";
+                };
+              };
+            };
+            ignores = [
+              ".direnv"
+              ".envrc"
+            ];
+          };
 
+          direnv = {
+            enable = true;
+            nix-direnv.enable = true;
+          };
 
-	home.stateVersion = "25.05";
+          starship = {
+            enable = true;
+            settings.custom.mob = {
+              command = "echo $MOB_TIMER_ROOM";
+              format = "[ ($output)]($style) ";
+              when = "[[ -v MOB_TIMER_ROOM ]]";
+            };
+          };
+
+        };
+
+        home.stateVersion = "25.05";
       };
-  };
+    };
 }
