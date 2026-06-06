@@ -12,7 +12,7 @@
       ...
     }:
     let
-      min_kernel_version = "6.19.12";
+      min_kernel_version = "7.0.8";
     in
     {
       assertions = [
