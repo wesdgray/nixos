@@ -1,57 +1,9 @@
 [1m<<<[0m /run/current-system
-[1m>>>[0m /nix/store/awkzghh85kmsysp0zlk3cc3db3bhjbgc-nixos-system-desktop3950x-no_git_metadata
-
-[1mCHANGED[0m
-[[1;96mU[0m.] breeze                                       [33m6[0m.[33m6[0m.[31m4[0m -> [33m6[0m.[33m6[0m.[32m5[0m
-[[1;96mU[0m[1m*[0m] [1mdevenv                                       [0m[33m2[0m.[33m1[0m.[31m0[0m -> [33m2[0m.[33m1[0m.[32m2[0m
-[[1;96mU[0m.] discord                                      [31m0[0m.[33m0[0m.[33m1[0m[33m3[0m[31m4[0m -> [32m1[0m.[33m0[0m.[33m1[0m[33m3[0m[32m7[0m
-[[1;96mU[0m.] dnsmasq                                      [33m2[0m.[33m9[0m[33m2[0m ×[33m2[0m -> [33m2[0m.[33m9[0m[33m2[0m[32mr[0m[32me[0m[32ml[0m[32m2[0m ×[33m2[0m
-[[1;96mU[0m[1m*[0m] [1mdocker                                       [0m[33m29[0m.[33m4[0m.[31m2[0m -> [33m29[0m.[33m4[0m.[32m3[0m
-[[1;96mU[0m.] docker-containerd                            [33m29[0m.[33m4[0m.[31m2[0m -> [33m29[0m.[33m4[0m.[32m3[0m
-[[1;96mU[0m.] docker-runc                                  [33m29[0m.[33m4[0m.[31m2[0m -> [33m29[0m.[33m4[0m.[32m3[0m
-[[1;96mU[0m.] docker-tini                                  [33m29[0m.[33m4[0m.[31m2[0m -> [33m29[0m.[33m4[0m.[32m3[0m
-[[1;96mU[0m[1m*[0m] [1mfirefox                                      [0m[33m150[0m.[33m0[0m.[31m2[0m -> [33m150[0m.[33m0[0m.[32m3[0m
-[[1;96mU[0m.] firefox-unwrapped                            [33m150[0m.[33m0[0m.[31m2[0m -> [33m150[0m.[33m0[0m.[32m3[0m
-[[1;96mU[0m.] google-chrome                                [33m148[0m.[33m0[0m.[33m7778[0m.[31m9[0m[31m6[0m -> [33m148[0m.[33m0[0m.[33m7778[0m.[32m1[0m[32m6[0m[32m7[0m
-[[1;96mU[0m.] initrd-linux                                 [33m7[0m.[33m0[0m.[31m5[0m -> [33m7[0m.[33m0[0m.[32m8[0m
-[[1;96mU[0m.] kdecoration                                  [33m6[0m.[33m6[0m.[31m4[0m -> [33m6[0m.[33m6[0m.[32m5[0m
-[[1;96mU[0m.] libgit2                                      [33m1[0m.[33m9[0m.[31m2[0m-[33mlib[0m -> [33m1[0m.[33m9[0m.[32m3[0m-[33mlib[0m
-[[1;96mU[0m.] linux                                        [33m7[0m.[33m0[0m.[31m5[0m, [33m7[0m.[33m0[0m.[31m5[0m-[33mmodules[0m ×[33m2[0m -> [33m7[0m.[33m0[0m.[32m8[0m, [33m7[0m.[33m0[0m.[32m8[0m-[33mmodules[0m ×[33m2[0m
-[[1;96mU[0m.] lsp-plugins                                  [33m1[0m.[33m2[0m.[33m2[0m[31m7[0m -> [33m1[0m.[33m2[0m.[33m2[0m[32m9[0m
-[[1;96mU[0m.] moby                                         [33m29[0m.[33m4[0m.[31m2[0m -> [33m29[0m.[33m4[0m.[32m3[0m
-[[1;33mC[0m.] nix-cmd                                      [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;33mC[0m.] nix-expr                                     [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;33mC[0m.] nix-fetchers                                 [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;33mC[0m.] nix-flake                                    [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;33mC[0m.] nix-main                                     [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;33mC[0m.] nix-store                                    [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;33mC[0m.] nix-util                                     [31m2[0m.[31m30[0m.[31m5[0m+[31m1[0m, [3;34m<others>[0m -> [3;34m<others>[0m
-[[1;96mU[0m.] nixd                                         [33m2[0m.[33m9[0m.[31m0[0m -> [33m2[0m.[33m9[0m.[32m1[0m
-[[1;96mU[0m.] nixf                                         [33m2[0m.[33m9[0m.[31m0[0m -> [33m2[0m.[33m9[0m.[32m1[0m
-[[1;96mU[0m.] nixt                                         [33m2[0m.[33m9[0m.[31m0[0m -> [33m2[0m.[33m9[0m.[32m1[0m
-[[1;96mU[0m.] noto-fonts                                   [33m2026[0m.[33m0[0m[31m4[0m.[33m01[0m -> [33m2026[0m.[33m0[0m[32m5[0m.[33m01[0m
-[[1;96mU[0m.] nvidia-open                                  [33m595[0m.[33m71[0m.[33m05[0m-[33m7[0m.[33m0[0m.[31m5[0m -> [33m595[0m.[33m71[0m.[33m05[0m-[33m7[0m.[33m0[0m.[32m8[0m
-[[1;96mU[0m.] nvidia-vaapi-driver                          [33m0[0m.[33m0[0m.[33m1[0m[31m6[0m -> [33m0[0m.[33m0[0m.[33m1[0m[32m7[0m
-[[1;96mU[0m[1m*[0m] [1mscx_full                                     [0m[33m1[0m.[33m1[0m.[31m0[0m -> [33m1[0m.[33m1[0m.[32m1[0m
-[[1;96mU[0m.] scx_rustscheds                               [33m1[0m.[33m1[0m.[31m0[0m -> [33m1[0m.[33m1[0m.[32m1[0m
-[[1;96mU[0m.] telegram-desktop                             [33m6[0m.[31m7[0m.[31m8[0m -> [33m6[0m.[32m8[0m.[32m1[0m
-[[1;96mU[0m.] uriparser                                    [33m1[0m.[33m0[0m.[31m1[0m -> [33m1[0m.[33m0[0m.[32m2[0m
-[[1;96mU[0m.] vimplugin-luajit2.1-rustaceanvim             [33m9[0m.[33m0[0m.[31m3[0m-[33m2[0m-[33munstable[0m-[33m9[0m.[33m0[0m.[31m3[0m-[33m2[0m -> [33m9[0m.[33m0[0m.[32m4[0m-[33m2[0m-[33munstable[0m-[33m9[0m.[33m0[0m.[32m4[0m-[33m2[0m
-[[1;96mU[0m.] vimplugin-nvim-lspconfig                     [33m2[0m.[31m8[0m.[33m0[0m -> [33m2[0m.[32m9[0m.[33m0[0m
-[[1;96mU[0m.] vimplugin-nvim-treesitter-context            [33m1[0m.[33m0[0m.[33m0[0m-[33munstable[0m-[33m2026[0m-[33m0[0m[31m4[0m-[33m0[0m[31m2[0m -> [33m1[0m.[33m0[0m.[33m0[0m-[33munstable[0m-[33m2026[0m-[33m0[0m[32m5[0m-[33m0[0m[32m6[0m
-[[1;96mU[0m.] zam-plugins                                  [33m4[0m.[31m4[0m -> [33m4[0m.[32m5[0m
+[1m>>>[0m /nix/store/ss2887gf5zhjsn2mrbmp5glh1m3fb4la-nixos-system-desktop3950x-no_git_metadata
 
 [1mADDED[0m
-[[1;32mA[0m.] discord-stage-modules                        [32m<none>[0m
-[[1;32mA[0m.] unit-network-local-commands.service          [32m<none>[0m
-[[1;32mA[0m.] unit-network.target                          [32m<none>[0m
-[[1;32mA[0m.] unit-networking-scripted.target              [32m<none>[0m
-[[1;32mA[0m.] unit-script-network-local-commands-start     [32m<none>[0m
+[[1;32mA[0m.] _1password.pam [32m<none>[0m
+[[1;32mA[0m.] pam_u2f        [32m1[0m.[32m4[0m.[32m0[0m
 
-[1mREMOVED[0m
-[[1;31mR[0m.] unit-network-local-commands.service-disabled [31m<none>[0m
-[[1;31mR[0m.] unit-network-setup.service                   [31m<none>[0m
-[[1;31mR[0m.] unit-script-network-setup-start              [31m<none>[0m
-
-[1mSIZE[0m: [31m21.7 GiB[0m -> [32m22.0 GiB[0m
-[1mDIFF[0m: [32m283 MiB[0m
+[1mSIZE[0m: [31m22.0 GiB[0m -> [32m22.0 GiB[0m
+[1mDIFF[0m: [32m132 KiB[0m

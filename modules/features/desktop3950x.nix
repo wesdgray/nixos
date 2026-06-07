@@ -114,7 +114,7 @@
           # remotePlay.openFirewall = true;
           # dedicatedServer.openFirewall = true;
         };
-        _1password-gui.enable = true;
+
         tmux.enable = true;
         mosh = {
           enable = true;
@@ -170,12 +170,7 @@
         settings.PasswordAuthentication = false;
       };
 
-      programs.ssh.extraConfig = ''
-            Host *
-        	    IdentityAgent ~/.1password/agent.sock
-      '';
-
-      # Open ports in the firewall.
+# Open ports in the firewall.
       networking.firewall.allowedTCPPorts = [
         22
         24800

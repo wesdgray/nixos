@@ -17,6 +17,7 @@
       self.nixosModules.docker
       self.nixosModules.no-sleep
       self.nixosModules.nix-settings
+      self.nixosModules._1password
       self.nixosModules.desktop3950x-hardware
     ];
   };
